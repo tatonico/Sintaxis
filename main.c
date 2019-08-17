@@ -1,6 +1,3 @@
-
-enum Token{ID, BUG, CTE};
-
 Token reconocerToken(void){
     estado=INICIAL;
     while !pararSegun(estado){
@@ -8,9 +5,9 @@ Token reconocerToken(void){
         estado = matEstados[estado][caracter];
     }
     if elEstadoEsAceptor(estado){
-        if charCentinela(caracter);
+        if charCentinela(caracter, estado);
             unput(caracter);
-        Token tok = retornarToken(estado);
+        Token tok charCentinela= retornarToken(estado);
         switch tok{
             case ID:
                 cantidadIdentificadores++;
@@ -25,6 +22,27 @@ Token reconocerToken(void){
         cantidadErrores++;
     }
     return tok;
+}
+
+bool charCentinela(caracter){
+    if (estado == (...))
+        return caracter == (...);
+    if (estado == (...))
+        return caracter == (...);
+    return false;
+}
+
+Token retornarToken(estado){
+    switch estado{
+    case 1,2,3,4:
+        return ID;
+        break;
+    case 5,6,7,8:
+        return CTE;
+        break;
+    default:
+        return BUG;
+    }
 }
 
 void imprimirDatos(void){
