@@ -3,10 +3,10 @@
 typedef enum Token{ID, BUG, CTE, END} Token;
 const int INICIAL = 0;
 int T[4][5] = {
-                        {1, 2, 0, 3},
-                        {1, 1, 10, 10},
-                        {11, 2, 11, 11},
-                        {20, 20, 20, 3}
+                        {1, 2, 0, 3, 12},
+                        {1, 1, 10, 10, 10},
+                        {11, 2, 11, 11, 11},
+                        {20, 20, 20, 3, 20}
                     };
 
 
@@ -28,12 +28,18 @@ int estadoAceptor(int pEstado) {
     return deboParar(pEstado) && !estadoRechazador(pEstado);
 }
 
+int estadoConCentinela(int pEstado) {
+    return pEstado != 12;
+}
+
 Token tokenSegunEstado(int pEstado) {
     switch (pEstado) {
         case 10:
             return ID;
         case 11:
             return CTE;
+        case 12:
+            return END;
     }
 }
 
@@ -58,6 +64,8 @@ int leerCaracter(char c) {
         col = 1;
     else if (esEspacio(c))
         col = 2;
+    else if (c == EOF)
+        col = 4;
     else
         col = 3;
     return col;
@@ -72,13 +80,12 @@ Token reconocerToken(FILE* input){
    int colCaracter;
    while (!deboParar(estado)) {
        caracter = getc(input);
-       if (caracter == EOF)     // VER SI SE PUEDE MEJORAR ESTO
-            return END;
        colCaracter = leerCaracter(caracter);
        estado = T[estado][colCaracter];
    }
-   ungetc(caracter, input); // Todos los estados paran con un valor centinela
    if (estadoAceptor(estado)){
+       if (estadoConCentinela(estado))
+            ungetc(caracter, input);
        tok = tokenSegunEstado(estado);
    } else {
        tok = BUG;

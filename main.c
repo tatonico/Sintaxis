@@ -21,7 +21,7 @@ void escribirToken(Token tok) {
             cntCtes++;
             break;
         case END:
-            printf("Fin del archivo\n");
+            printf("\nFin del archivo\n");
     }
 }
 
