@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1566090216 source:c:\users\nicor\desktop\tp0_sintaxis\tp0_ssl\main.c
+	<stdio.h>
+	<stdlib.h>
+	"scanner.h"
+
+1566090098 c:\users\nicor\desktop\tp0_sintaxis\tp0_ssl\scanner.h
+
+1566090157 source:c:\users\nicor\desktop\tp0_sintaxis\tp0_ssl\scanner.c
+	<stdio.h>
+	<stdlib.h>
+
