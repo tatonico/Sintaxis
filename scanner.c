@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-typedef enum Token{ID, BUG, CTE, END} Token;
+typedef enum Token{ID, BUG, CTE, FDT} Token;
 const int INICIAL = 0;
 int T[4][5] = {
                         {1, 2, 0, 3, 12},
@@ -39,7 +39,7 @@ Token tokenSegunEstado(int pEstado) {
         case 11:
             return CTE;
         case 12:
-            return END;
+            return FDT;
     }
 }
 

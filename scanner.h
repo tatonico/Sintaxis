@@ -1,4 +1,4 @@
 void testScanner();
 
-typedef enum Token{ID, BUG, CTE, END} Token;
+typedef enum Token{ID, BUG, CTE, FDT} Token;
 Token reconocerToken(FILE*);

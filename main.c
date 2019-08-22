@@ -20,7 +20,7 @@ void escribirToken(Token tok) {
             printf("Constante entera\n");
             cntCtes++;
             break;
-        case END:
+        case FDT:
             printf("\nFin del archivo\n");
     }
 }
@@ -28,12 +28,9 @@ void escribirToken(Token tok) {
 int main(int argc, char **argv) {
     char caracter;
     Token tok;
-    FILE *input = stdin;
-    if (argc > 2){
-        input = fopen(argv[2], "r");  // Abrir el parametro
-    }
-    while (!feof(input)) {
-        tok = reconocerToken(input);
+    freopen("prueba.txt", "r", stdin);
+    while (!feof(stdin)) {
+        tok = reconocerToken(stdin);
         escribirToken(tok);
     }
     printf("-----------\n\n");
