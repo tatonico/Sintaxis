@@ -1,19 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
-typedef enum Token{ID, BUG, CTE, FDT} Token;
+#include <ctype.h>
+#include "scanner.h"
+
 const int INICIAL = 0;
-int T[4][5] = {
-                        {1, 2, 0, 3, 12},
-                        {1, 1, 10, 10, 10},
-                        {11, 2, 11, 11, 11},
-                        {20, 20, 20, 3, 20}
-                    };
-
-
-void testScanner() {
-    printf("Hello scanner!\n");
-}
-
+int T[4][5] =   {
+                    {1, 2, 0, 3, 12},
+                    {1, 1, 10, 10, 10},
+                    {11, 2, 11, 11, 11},
+                    {20, 20, 20, 3, 20}
+                };
 
 // Funciones estados
 int deboParar(int pEstado) {
@@ -40,29 +36,20 @@ Token tokenSegunEstado(int pEstado) {
             return CTE;
         case 12:
             return FDT;
+        case 20:
+            return BUG;
     }
 }
 
 // Funciones caracteres
-int esLetra(char c){
-   return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
-}
-
-int esNumero(char c){
-   return (c >= '0' && c <= '9');
-}
-
-int esEspacio(char c) {
-    return c == ' ' || c == '\t' || c == '\n';
-}
 
 int leerCaracter(char c) {
     int col;
-    if (esLetra(c))
+    if (isalpha(c))
         col = 0;
-    else if (esNumero(c))
+    else if (isdigit(c))
         col = 1;
-    else if (esEspacio(c))
+    else if (isspace(c))
         col = 2;
     else if (c == EOF)
         col = 4;
@@ -71,9 +58,8 @@ int leerCaracter(char c) {
     return col;
 }
 
-
 // Funcion principal
-Token reconocerToken(FILE* input){
+Token scanner(FILE* input){
    Token tok;
    int estado = INICIAL;
    char caracter;
@@ -83,12 +69,8 @@ Token reconocerToken(FILE* input){
        colCaracter = leerCaracter(caracter);
        estado = T[estado][colCaracter];
    }
-   if (estadoAceptor(estado)){
-       if (estadoConCentinela(estado))
-            ungetc(caracter, input);
-       tok = tokenSegunEstado(estado);
-   } else {
-       tok = BUG;
-   }
+   if (estadoConCentinela(estado))
+        ungetc(caracter, input);
+   tok = tokenSegunEstado(estado);
    return tok;
 }

@@ -25,14 +25,15 @@ void escribirToken(Token tok) {
     }
 }
 
-int main(int argc, char **argv) {
+int main() {
+    freopen("prueba.txt", "r", stdin);
+
     char caracter;
     Token tok;
-    freopen("prueba.txt", "r", stdin);
-    while (!feof(stdin)) {
-        tok = reconocerToken(stdin);
+    do {
+        tok = scanner(stdin);
         escribirToken(tok);
-    }
+    } while (tok != FDT);
     printf("-----------\n\n");
     printf("Totales:\n");
     printf("Identificadores: %i\n", cntIds);
