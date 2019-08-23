@@ -1,10 +1,27 @@
 void testScanner();
 
-<<<<<<< HEAD
-typedef enum Token{ID, BUG, CTE, END} Token;
-typedef enum Columna{COLLETRA=0, COLNUMERO, COLESPACIO, COLERROR, COLFIN} Columna;
+
+
+typedef enum Token{ID,
+                   BUG,
+                   CTE,
+                   END} Token;
+
+typedef enum Columna{COLLETRA=0,
+                    COLNUMERO,
+                    COLESPACIO,
+                    COLERROR,
+                    COLFIN} Columna;
+
+typedef enum Estado{ESTADOFINTEXTO = 12,
+                    ESTADOFINALID = 10,
+                    ESTADOFINALCTE = 11,
+                    ESTADOERROR = 20,
+                    ESTADOINICIAL = 0,
+                    ESTADOMEDIOID = 1,
+                    ESTADOMEDIOCTE = 2,
+                    ESTADOMEDIOERROR = 3} Estado;
+
 Token reconocerToken(FILE*);
-=======
-typedef enum Token{ID, BUG, CTE, FDT} Token;
 Token scanner(FILE*);
->>>>>>> 8fd9259b46c42d0fcb5d87d50c64f897b5685efc
+

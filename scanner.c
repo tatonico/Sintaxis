@@ -1,25 +1,43 @@
 #include <stdio.h>
 #include <stdlib.h>
-<<<<<<< HEAD
-typedef enum Token{ID, BUG, CTE, END} Token;
-typedef enum Columna{COLLETRA=0, COLNUMERO, COLESPACIO, COLERROR, COLFIN} Columna;
-typedef enum Estado{ESTADOSINCENTINELA = 12} Estado;
+
+typedef enum Token{ID,
+                   BUG,
+                   CTE,
+                   END} Token;
+
+typedef enum Columna{COLLETRA=0,
+                    COLNUMERO,
+                    COLESPACIO,
+                    COLERROR,
+                    COLFIN} Columna;
+
+typedef enum Estado{ESTADOFINTEXTO = 12,
+                    ESTADOFINALID = 10,
+                    ESTADOFINALCTE = 11,
+                    ESTADOERROR = 20,
+                    ESTADOINICIAL = 0,
+                    ESTADOMEDIOID = 1,
+                    ESTADOMEDIOCTE = 2,
+                    ESTADOMEDIOERROR = 3} Estado;
+
 const int INICIAL = 0;
-int T[4][5] = {
-                        {1, 2, 0, 3, 12},
-                        {1, 1, 10, 10, 10},
-                        {11, 2, 11, 11, 11},
-                        {20, 20, 20, 3, 20}
-                    };
+
+int T[4][5] = {        //ColLetras(0)-----ColNros(1)------ColEspacios(2)--ColErrores(3)-----ColFDT(4)
+                    /*0*/{ESTADOMEDIOID,  ESTADOMEDIOCTE, ESTADOINICIAL,  ESTADOMEDIOERROR, ESTADOFINTEXTO},
+                    /*1*/{ESTADOMEDIOID,  ESTADOMEDIOID,  ESTADOFINALID,  ESTADOFINALID,    ESTADOFINALID},
+                    /*2*/{ESTADOFINALCTE, ESTADOMEDIOCTE, ESTADOFINALCTE, ESTADOFINALCTE,   ESTADOFINALCTE},
+                    /*3*/{ESTADOERROR,    ESTADOERROR,    ESTADOERROR,    ESTADOMEDIOERROR, ESTADOERROR}
+              };
 
 
 void testScanner() {
     printf("Hello scanner!\n");
 }
-=======
+
 #include <ctype.h>
 #include "scanner.h"
->>>>>>> 8fd9259b46c42d0fcb5d87d50c64f897b5685efc
+
 
 const int INICIAL = 0;
 int T[4][5] =   {
@@ -31,11 +49,11 @@ int T[4][5] =   {
 
 // Funciones estados
 int deboParar(int pEstado) {
-    return pEstado >= 10;
+    return pEstado >= ESTADOFINALID;
 }
 
 int estadoRechazador(int pEstado) {
-    return pEstado >= 20;
+    return pEstado >= ESTADOERROR;
 }
 
 int estadoAceptor(int pEstado) {
@@ -48,13 +66,13 @@ int estadoConCentinela(int pEstado) {
 
 Token tokenSegunEstado(int pEstado) {
     switch (pEstado) {
-        case 10:
+        case ESTADOFINALID:
             return ID;
-        case 11:
+        case ESTADOFINALCTE:
             return CTE;
-        case 12:
+        case ESTADOFINTEXTO:
             return FDT;
-        case 20:
+        case ESTADOERROR:
             return BUG;
     }
 }
@@ -63,21 +81,20 @@ Token tokenSegunEstado(int pEstado) {
 
 int leerCaracter(char c) {
     int col;
-<<<<<<< HEAD
+
     if (esLetra(c))
         col = COLLETRA;
     else if (esNumero(c))
         col = COLNUMERO;
     else if (esEspacio(c))
         col = COLESPACIO;
-=======
+
     if (isalpha(c))
-        col = 0;
+        col = COLLETRA;
     else if (isdigit(c))
-        col = 1;
+        col = COLNUMERO;
     else if (isspace(c))
-        col = 2;
->>>>>>> 8fd9259b46c42d0fcb5d87d50c64f897b5685efc
+        col = COLESPACIO;
     else if (c == EOF)
         col = COLFIN;
     else

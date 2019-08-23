@@ -26,7 +26,11 @@ void escribirToken(Token tok) {
 }
 
 int main() {
-    freopen("prueba.txt", "r", stdin);
+    char strvar[100];
+    fgets (strvar, 100, stdin);
+    while(strvar[0] != '0'){
+
+    freopen(strvar, "r", stdin);
 
     char caracter;
     Token tok;
@@ -34,10 +38,15 @@ int main() {
         tok = scanner(stdin);
         escribirToken(tok);
     } while (tok != FDT);
+
     printf("-----------\n\n");
     printf("Totales:\n");
     printf("Identificadores: %i\n", cntIds);
     printf("Constantes: %i\n", cntCtes);
     printf("Errores: %i\n", cntBugs);
+
+    cntBugs = cntCtes = cntIds = 0;
+    fgets (strvar, 100, stdin);
+    }
     return 0;
 }
