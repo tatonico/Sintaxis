@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 typedef enum Token{ID, BUG, CTE, END} Token;
+typedef enum Columna{COLLETRA=0, COLNUMERO, COLESPACIO, COLERROR, COLFIN} Columna;
+typedef enum Estado{ESTADOSINCENTINELA = 12} Estado;
 const int INICIAL = 0;
 int T[4][5] = {
                         {1, 2, 0, 3, 12},
@@ -59,15 +61,15 @@ int esEspacio(char c) {
 int leerCaracter(char c) {
     int col;
     if (esLetra(c))
-        col = 0;
+        col = COLLETRA;
     else if (esNumero(c))
-        col = 1;
+        col = COLNUMERO;
     else if (esEspacio(c))
-        col = 2;
+        col = COLESPACIO;
     else if (c == EOF)
-        col = 4;
+        col = COLFIN;
     else
-        col = 3;
+        col = COLERROR;
     return col;
 }
 
