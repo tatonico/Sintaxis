@@ -20,22 +20,20 @@ void escribirToken(Token tok) {
             printf("Constante entera\n");
             cntCtes++;
             break;
-        case END:
+        case FDT:
             printf("\nFin del archivo\n");
     }
 }
 
-int main(int argc, char **argv) {
+int main() {
+    freopen("prueba.txt", "r", stdin);
+
     char caracter;
     Token tok;
-    FILE *input = stdin;
-    if (argc > 2){
-        input = fopen(argv[2], "r");  // Abrir el parametro
-    }
-    while (!feof(input)) {
-        tok = reconocerToken(input);
+    do {
+        tok = scanner(stdin);
         escribirToken(tok);
-    }
+    } while (tok != FDT);
     printf("-----------\n\n");
     printf("Totales:\n");
     printf("Identificadores: %i\n", cntIds);
