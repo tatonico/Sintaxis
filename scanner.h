@@ -1,27 +1,23 @@
-void testScanner();
+#ifndef SCANNER_H_INCLUDED
+#define SCANNER_H_INCLUDED
 
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
 
 typedef enum Token{ID,
-                   BUG,
+                   ERR,
                    CTE,
-                   END} Token;
+                   FDT} Token;
+// Estados
+int deboParar(int);
+int estadoConCentinela(int);
+Token tokenSegunEstado(int);
 
-typedef enum Columna{COLLETRA=0,
-                    COLNUMERO,
-                    COLESPACIO,
-                    COLERROR,
-                    COLFIN} Columna;
+// Caracteres
+int leerCaracter(char);
 
-typedef enum Estado{ESTADOFINTEXTO = 12,
-                    ESTADOFINALID = 10,
-                    ESTADOFINALCTE = 11,
-                    ESTADOERROR = 20,
-                    ESTADOINICIAL = 0,
-                    ESTADOMEDIOID = 1,
-                    ESTADOMEDIOCTE = 2,
-                    ESTADOMEDIOERROR = 3} Estado;
+//Principal
+Token scanner();
 
-Token reconocerToken(FILE*);
-Token scanner(FILE*);
-
+#endif

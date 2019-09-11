@@ -1,79 +1,49 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "scanner.h"
 
-typedef enum Token{ID,
-                   BUG,
-                   CTE,
-                   END} Token;
-
-typedef enum Columna{COLLETRA=0,
+typedef enum Columna{COLLETRA,
                     COLNUMERO,
                     COLESPACIO,
                     COLERROR,
                     COLFIN} Columna;
 
-typedef enum Estado{ESTADOFINTEXTO = 12,
-                    ESTADOFINALID = 10,
-                    ESTADOFINALCTE = 11,
-                    ESTADOERROR = 20,
-                    ESTADOINICIAL = 0,
-                    ESTADOMEDIOID = 1,
-                    ESTADOMEDIOCTE = 2,
-                    ESTADOMEDIOERROR = 3} Estado;
+typedef enum Estado{EFINTEXTO = 12,
+                    EFINALID = 10,
+                    EFINALCTE = 11,
+                    EFINERROR = 20,
+                    EINICIAL = 0,
+                    EMEDIOID = 1,
+                    EMEDIOCTE = 2,
+                    EMEDIOERROR = 3} Estado;
 
 const int INICIAL = 0;
 
-int T[4][5] = {        //ColLetras(0)-----ColNros(1)------ColEspacios(2)--ColErrores(3)-----ColFDT(4)
-                    /*0*/{ESTADOMEDIOID,  ESTADOMEDIOCTE, ESTADOINICIAL,  ESTADOMEDIOERROR, ESTADOFINTEXTO},
-                    /*1*/{ESTADOMEDIOID,  ESTADOMEDIOID,  ESTADOFINALID,  ESTADOFINALID,    ESTADOFINALID},
-                    /*2*/{ESTADOFINALCTE, ESTADOMEDIOCTE, ESTADOFINALCTE, ESTADOFINALCTE,   ESTADOFINALCTE},
-                    /*3*/{ESTADOERROR,    ESTADOERROR,    ESTADOERROR,    ESTADOMEDIOERROR, ESTADOERROR}
+int T[4][5] = {     // ColLetras(0)-ColNros(1)-ColEspacios(2)-ColErrores(3)-ColFDT(4)
+                    /*0*/{EMEDIOID , EMEDIOCTE, EINICIAL , EMEDIOERROR, EFINTEXTO},
+                    /*1*/{EMEDIOID , EMEDIOID , EFINALID , EFINALID   , EFINALID },
+                    /*2*/{EFINALCTE, EMEDIOCTE, EFINALCTE, EFINALCTE  , EFINALCTE},
+                    /*3*/{EFINERROR, EFINERROR, EFINERROR, EMEDIOERROR, EFINERROR}
               };
 
 
-void testScanner() {
-    printf("Hello scanner!\n");
-}
-
-#include <ctype.h>
-#include "scanner.h"
-
-
-const int INICIAL = 0;
-int T[4][5] =   {
-                    {1, 2, 0, 3, 12},
-                    {1, 1, 10, 10, 10},
-                    {11, 2, 11, 11, 11},
-                    {20, 20, 20, 3, 20}
-                };
-
 // Funciones estados
 int deboParar(int pEstado) {
-    return pEstado >= ESTADOFINALID;
-}
-
-int estadoRechazador(int pEstado) {
-    return pEstado >= ESTADOERROR;
-}
-
-int estadoAceptor(int pEstado) {
-    return deboParar(pEstado) && !estadoRechazador(pEstado);
+    return pEstado >= 10;
 }
 
 int estadoConCentinela(int pEstado) {
-    return pEstado != 12;
+    return pEstado != EFINTEXTO;
 }
 
 Token tokenSegunEstado(int pEstado) {
     switch (pEstado) {
-        case ESTADOFINALID:
+        case EFINALID:
             return ID;
-        case ESTADOFINALCTE:
+        case EFINALCTE:
             return CTE;
-        case ESTADOFINTEXTO:
+        case EFINTEXTO:
             return FDT;
-        case ESTADOERROR:
-            return BUG;
+        default:
+            return ERR;
     }
 }
 
@@ -81,14 +51,6 @@ Token tokenSegunEstado(int pEstado) {
 
 int leerCaracter(char c) {
     int col;
-
-    if (esLetra(c))
-        col = COLLETRA;
-    else if (esNumero(c))
-        col = COLNUMERO;
-    else if (esEspacio(c))
-        col = COLESPACIO;
-
     if (isalpha(c))
         col = COLLETRA;
     else if (isdigit(c))
@@ -103,18 +65,22 @@ int leerCaracter(char c) {
 }
 
 // Funcion principal
-Token scanner(FILE* input){
+Token scanner(){
    Token tok;
    int estado = INICIAL;
-   char caracter;
    int colCaracter;
+   char caracter;
+
    while (!deboParar(estado)) {
-       caracter = getc(input);
+       caracter = getchar();
        colCaracter = leerCaracter(caracter);
        estado = T[estado][colCaracter];
    }
+
    if (estadoConCentinela(estado))
-        ungetc(caracter, input);
+        ungetc(caracter, stdin);
+
    tok = tokenSegunEstado(estado);
+
    return tok;
 }

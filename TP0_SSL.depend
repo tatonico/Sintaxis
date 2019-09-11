@@ -12,3 +12,14 @@
 	<ctype.h>
 	"scanner.h"
 
+1566688290 source:/home/nrickert/UTN/2019/SSL/TP0/main.c
+	"scanner.h"
+
+1566685069 /home/nrickert/UTN/2019/SSL/TP0/scanner.h
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+
+1566684978 source:/home/nrickert/UTN/2019/SSL/TP0/scanner.c
+	"scanner.h"
+

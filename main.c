@@ -1,9 +1,22 @@
-#include <stdio.h>
-#include <stdlib.h>
+/*
+    TP0 - 2019
+    "Un escaner elemental"
+
+    Grupo 11
+    Integrantes:
+     .Israeski  Martin  - 1682611
+     .Mandarino Gonzalo - 1678929
+     .Pawlow    Manuel  - 1681280
+     .Rickert   Nicolás - 1673944
+
+*/
+
 #include "scanner.h"
 
+#define ARCHIVO "prueba.txt"
+
 int cntIds = 0;
-int cntBugs = 0;
+int cntErrs = 0;
 int cntCtes = 0;
 
 void escribirToken(Token tok) {
@@ -12,9 +25,9 @@ void escribirToken(Token tok) {
             printf("Identificador\n");
             cntIds++;
             break;
-        case BUG:
+        case ERR:
             printf("Error\n");
-            cntBugs++;
+            cntErrs++;
             break;
         case CTE:
             printf("Constante entera\n");
@@ -26,14 +39,11 @@ void escribirToken(Token tok) {
 }
 
 int main() {
-    char strvar[100];
-    fgets (strvar, 100, stdin);
-    while(strvar[0] != '0'){
-
-    freopen(strvar, "r", stdin);
-
-    char caracter;
     Token tok;
+
+    // Reemplazo el stdin por ARCHIVO, definido arriba
+    freopen(ARCHIVO, "r", stdin);
+
     do {
         tok = scanner(stdin);
         escribirToken(tok);
@@ -43,10 +53,6 @@ int main() {
     printf("Totales:\n");
     printf("Identificadores: %i\n", cntIds);
     printf("Constantes: %i\n", cntCtes);
-    printf("Errores: %i\n", cntBugs);
-
-    cntBugs = cntCtes = cntIds = 0;
-    fgets (strvar, 100, stdin);
-    }
+    printf("Errores: %i\n", cntErrs);
     return 0;
 }
