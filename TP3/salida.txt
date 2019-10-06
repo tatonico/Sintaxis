@@ -1,0 +1,48 @@
+Token: Programa
+Token: Definir
+Token: Identificador		Lexema: total
+Token: ';'
+Token: Definir
+Token: Identificador		Lexema: var1
+Token: ';'
+Token: Definir
+Token: Identificador		Lexema: var2
+Token: ';'
+Token: Código
+Token: Leer
+Token: '('
+Token: Identificador		Lexema: var1
+Token: ','
+Token: Identificador		Lexema: var2
+Token: ')'
+Token: ';'
+Error Léxico: Cadena desconocida: @@
+Token: Identificador		Lexema: total
+Token: Asignación
+Token: Identificador		Lexema: var1
+Token: '+'
+Token: Constante    		Lexema: 3
+Token: '*'
+Token: '-'
+Token: Identificador		Lexema: var2
+Token: ';'
+Token: Identificador		Lexema: var2
+Token: Asignación
+Token: Constante    		Lexema: 2
+Token: '*'
+Token: '('
+Token: Constante    		Lexema: 514
+Token: '+'
+Error Léxico: Constante inválida: 4z2m
+Token: ')'
+Token: ';'
+Token: Escribir
+Token: '('
+Error Léxico: Identificador inválido: total&3a@
+Token: '/'
+Token: Constante    		Lexema: 2
+Token: ')'
+Token: ';'
+Error Léxico: Cadena desconocida: <
+Token: Fin
+Token: Fin de archivo
