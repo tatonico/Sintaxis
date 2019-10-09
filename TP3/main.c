@@ -1,3 +1,16 @@
+/*
+    TP3 - 2019
+    "Escaner del lenguaje mini con flex"
+
+    Grupo 11
+    Integrantes:
+     .Israeski  Martin  - 1682611
+     .Mandarino Gonzalo - 1678929
+     .Pawlow    Manuel  - 1681280
+     .Rickert   Nicolás - 1673944
+
+*/
+
 #include <stdio.h>
 #include "tokens.h"
 #include "scanner.h"
