@@ -11,8 +11,8 @@ L   [[:alpha:]]
 D   [0-9]
 LD  [[:alnum:]]
 S   [[:space:]]
-O   [[:^alnum:]]{-}[[:space:]]{-}[,;()+\-*\/]
-LDO [[:^space:]]{-}[,;()+\-*\/]
+O   [[:^alnum:]]{-}[[:space:]]{-}[,;()+*/<=#-]
+LDO [[:^space:]]{-}[,;()+*/<=#-]
 
 %%
 programa            return PROGRAMA;
@@ -37,3 +37,4 @@ fin                 return FIN;
 {D}{LD}*            printf("Error Léxico: Constante inválida: %s\n", yytext);
 {S}+                /*ignorar espacios*/
 #.*\n               /*ignorar comentario*/
+.                   printf("Error Léxico: Cadena desconocida: %s\n", yytext);

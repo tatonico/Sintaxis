@@ -15,8 +15,6 @@
 #include "tokens.h"
 #include "scanner.h"
 
-extern char* yytext;
-
 void escribirToken(TOKEN);
 
 int main(void) {
