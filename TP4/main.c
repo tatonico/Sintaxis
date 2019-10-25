@@ -1,6 +1,6 @@
 /*
-    TP3 - 2019
-    "Escaner del lenguaje mini con flex"
+    TP4 - 2019
+    "Parser del lenguaje mini con Bison"
 
     Grupo 11
     Integrantes:
