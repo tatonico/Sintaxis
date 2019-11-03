@@ -40,7 +40,7 @@ programa            : PROGRAMA { comenzar(); } listaDeclaraciones CODIGO listaSe
 listaDeclaraciones  : listaDeclaraciones declaracion
                     | %empty
                     ;
-declaracion         : DEFINIR IDENTIFICADOR ';' { strcpy(bufferLexemas, yylval.lexema); if(definir()); }
+declaracion         : DEFINIR IDENTIFICADOR ';' { strcpy(bufferLexemas, yylval.lexema); if(definir()) YYERROR; }
                     | error ';'
                     ;
 listaSentencias     : listaSentencias sentencia
@@ -51,11 +51,11 @@ sentencia           : ident ASIGNACION expresion ';'         { asignar($1.regExp
                     | ESCRIBIR '(' listaExpresiones ')' ';'  
                     | error ';'
                     ;
-listaIdentificadores: listaIdentificadores ',' ident 
-                    | ident 
+listaIdentificadores: listaIdentificadores ',' ident        { leer($3.regExp); }
+                    | ident                                 { leer($1.regExp); }
                     ;
-listaExpresiones    : listaExpresiones ',' expresion
-                    | expresion
+listaExpresiones    : listaExpresiones ',' expresion        { escribir($3.regExp); }
+                    | expresion                             { escribir($1.regExp); }
                     ;
 expresion           : expresion '+' expresion   { $$.regExp = genInfijo($1.regExp, '+', $3.regExp); }
                     | expresion '-' expresion   { $$.regExp = genInfijo($1.regExp, '-', $3.regExp); }
@@ -66,9 +66,9 @@ expresion           : expresion '+' expresion   { $$.regExp = genInfijo($1.regEx
                     ;
 valor               : ident
                     | CONSTANTE                 { strcpy(bufferLexemas, yylval.lexema); $$.regExp = procesarCte(); }
-                    | '(' expresion ')'
+                    | '(' expresion ')'         { $$.regExp = $2.regExp; }
                     ;
-ident               : IDENTIFICADOR             { strcpy(bufferLexemas, yylval.lexema); $$.regExp = procesarId(); if($$.regExp.valor); }
+ident               : IDENTIFICADOR             { strcpy(bufferLexemas, yylval.lexema); $$.regExp = procesarId(); if($$.regExp.valor) YYERROR; }
 %%
 
 int yylexerrs = 0;

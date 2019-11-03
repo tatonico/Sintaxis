@@ -1277,7 +1277,7 @@ yyreduce:
 
   case 6:
 #line 43 "parser.y" /* yacc.c:1646  */
-    { strcpy(bufferLexemas, yylval.lexema); if(definir()); }
+    { strcpy(bufferLexemas, yylval.lexema); if(definir()) YYERROR; }
 #line 1282 "parser.c" /* yacc.c:1646  */
     break;
 
@@ -1287,56 +1287,80 @@ yyreduce:
 #line 1288 "parser.c" /* yacc.c:1646  */
     break;
 
+  case 14:
+#line 54 "parser.y" /* yacc.c:1646  */
+    { leer((yyvsp[0]).regExp); }
+#line 1294 "parser.c" /* yacc.c:1646  */
+    break;
+
   case 15:
 #line 55 "parser.y" /* yacc.c:1646  */
     { leer((yyvsp[0]).regExp); }
-#line 1294 "parser.c" /* yacc.c:1646  */
+#line 1300 "parser.c" /* yacc.c:1646  */
+    break;
+
+  case 16:
+#line 57 "parser.y" /* yacc.c:1646  */
+    { escribir((yyvsp[0]).regExp); }
+#line 1306 "parser.c" /* yacc.c:1646  */
+    break;
+
+  case 17:
+#line 58 "parser.y" /* yacc.c:1646  */
+    { escribir((yyvsp[0]).regExp); }
+#line 1312 "parser.c" /* yacc.c:1646  */
     break;
 
   case 18:
 #line 60 "parser.y" /* yacc.c:1646  */
     { (yyval).regExp = genInfijo((yyvsp[-2]).regExp, '+', (yyvsp[0]).regExp); }
-#line 1300 "parser.c" /* yacc.c:1646  */
+#line 1318 "parser.c" /* yacc.c:1646  */
     break;
 
   case 19:
 #line 61 "parser.y" /* yacc.c:1646  */
     { (yyval).regExp = genInfijo((yyvsp[-2]).regExp, '-', (yyvsp[0]).regExp); }
-#line 1306 "parser.c" /* yacc.c:1646  */
+#line 1324 "parser.c" /* yacc.c:1646  */
     break;
 
   case 20:
 #line 62 "parser.y" /* yacc.c:1646  */
     { (yyval).regExp = genInfijo((yyvsp[-2]).regExp, '*', (yyvsp[0]).regExp); }
-#line 1312 "parser.c" /* yacc.c:1646  */
+#line 1330 "parser.c" /* yacc.c:1646  */
     break;
 
   case 21:
 #line 63 "parser.y" /* yacc.c:1646  */
     { (yyval).regExp = genInfijo((yyvsp[-2]).regExp, '/', (yyvsp[0]).regExp); }
-#line 1318 "parser.c" /* yacc.c:1646  */
+#line 1336 "parser.c" /* yacc.c:1646  */
     break;
 
   case 22:
 #line 64 "parser.y" /* yacc.c:1646  */
     { struct REG_EXPRESION r = { IDENTIFICADOR, "", 0 }; (yyval).regExp = genInfijo((yyvsp[0]).regExp, NEG, r); }
-#line 1324 "parser.c" /* yacc.c:1646  */
+#line 1342 "parser.c" /* yacc.c:1646  */
     break;
 
   case 25:
 #line 68 "parser.y" /* yacc.c:1646  */
     { strcpy(bufferLexemas, yylval.lexema); (yyval).regExp = procesarCte(); }
-#line 1330 "parser.c" /* yacc.c:1646  */
+#line 1348 "parser.c" /* yacc.c:1646  */
+    break;
+
+  case 26:
+#line 69 "parser.y" /* yacc.c:1646  */
+    { (yyval).regExp = (yyvsp[-1]).regExp; }
+#line 1354 "parser.c" /* yacc.c:1646  */
     break;
 
   case 27:
 #line 71 "parser.y" /* yacc.c:1646  */
-    { strcpy(bufferLexemas, yylval.lexema); (yyval).regExp = procesarId(); if((yyval).regExp.valor); }
-#line 1336 "parser.c" /* yacc.c:1646  */
+    { strcpy(bufferLexemas, yylval.lexema); (yyval).regExp = procesarId(); if((yyval).regExp.valor) YYERROR; }
+#line 1360 "parser.c" /* yacc.c:1646  */
     break;
 
 
-#line 1340 "parser.c" /* yacc.c:1646  */
+#line 1364 "parser.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
