@@ -22,6 +22,7 @@ int main(void) {
     } else {
         printf("Compilación realizada con éxito\n");
     }
-    printf("Errores sintácticos: %d  -  Errores léxicos: %d\n", yylexerrs, yynerrs);
+    printf("Errores sintácticos: %d  -  Errores léxicos: %d - Errores semánticos: %d\n", yynerrs, yylexerrs, yysemerrs);
+    //inorden(ts);
     return 0;
 }

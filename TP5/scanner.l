@@ -3,7 +3,6 @@
 #include "parser.h"
 
 void enviarErrorLexico(const char*);
-char buffer[255];
 }
 %option outfile="scanner.c"
 %option header-file="scanner.h"
@@ -34,8 +33,8 @@ fin                 return FIN;
 ")"                 return ')';
 ","                 return ',';
 ";"                 return ';';
-{L}{LD}*            { yylval = strdup(yytext); return IDENTIFICADOR; }
-{D}+                { yylval = strdup(yytext); return CONSTANTE; }
+{L}{LD}*            { yylval.lexema = strdup(yytext); return IDENTIFICADOR; }
+{D}+                { yylval.lexema = strdup(yytext); return CONSTANTE; }
 {O}+                { yylexerrs++; enviarErrorLexico("Error Léxico: Cadena desconocida: "); }
 {L}{LDO}*           { yylexerrs++; enviarErrorLexico("Error Léxico: Identificador inválido: "); }
 {D}{LD}*            { yylexerrs++; enviarErrorLexico("Error Léxico: Constante inválida: "); }
@@ -45,8 +44,7 @@ fin                 return FIN;
 %%
 
 void enviarErrorLexico(const char *s) {
-    strcat(buffer, s);
-    strcat(buffer, yytext);
-    yyerror(buffer);
-    memset(buffer, '\0', 255);  
+    strcpy(yyerrorBuffer, s);
+    strcat(yyerrorBuffer, yytext);
+    yyerror(yyerrorBuffer);
 }

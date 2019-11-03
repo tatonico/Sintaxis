@@ -7,9 +7,8 @@
 #include "parser.h"
 
 void enviarErrorLexico(const char*);
-char buffer[255];
 
-#line 13 "scanner.h"
+#line 12 "scanner.h"
 
 #define  YY_INT_ALIGNED short int
 
@@ -471,9 +470,9 @@ extern int yylex (void);
 #undef yyTABLES_NAME
 #endif
 
-#line 45 "scanner.l"
+#line 44 "scanner.l"
 
 
-#line 478 "scanner.h"
+#line 477 "scanner.h"
 #undef yyIN_HEADER
 #endif /* yyHEADER_H */

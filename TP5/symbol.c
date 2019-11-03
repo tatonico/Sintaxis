@@ -5,7 +5,7 @@
 #include "symbol.h"
 
 struct datoTS* buscarTS (struct datoTS* raiz, char* identificador) {
-    if (raiz == NULL || raiz->identificador)
+    if (raiz == NULL || strcmp(raiz->identificador, identificador) == 0)
         return raiz;
 
     if (strcmp(raiz->identificador, identificador) > 0)
@@ -14,7 +14,7 @@ struct datoTS* buscarTS (struct datoTS* raiz, char* identificador) {
     return buscarTS(raiz->der, identificador);
 }
 
-struct datoTS* insertarTS (struct datoTS* raiz, char* identificador, int token) {
+struct datoTS* insertarTS (struct datoTS* raiz, char* identificador, TOKEN token) {
     if (raiz == NULL)
         return nuevoDatoTS(identificador, token);   // Si estoy en una hoja, creo el dato
 
@@ -27,8 +27,8 @@ struct datoTS* insertarTS (struct datoTS* raiz, char* identificador, int token) 
     return raiz;
 }
 
-struct datoTS* nuevoDatoTS(char* identificador, int token) {
-    struct datoTS* dato = (struct datoTS*)malloc(sizeof(datoTS));
+struct datoTS* nuevoDatoTS(char* identificador, TOKEN token) {
+    struct datoTS* dato = (struct datoTS*)malloc(sizeof(struct datoTS));
 
     strcpy(dato->identificador, identificador);
     dato->token = token;
@@ -37,17 +37,6 @@ struct datoTS* nuevoDatoTS(char* identificador, int token) {
     dato->der = NULL;
 
     return dato;
-}
-
-struct datoTS* inicializarTS (void) {
-    struct datoTS* ts = NULL;
-    ts = insertarTS(ts, "programa", PROGRAMA);
-    insertarTS(ts, "definir", DEFINIR);
-    insertarTS(ts, "codigo", CODIGO);
-    insertarTS(ts, "leer", LEER);
-    insertarTS(ts, "escribir", ESCRIBIR);
-    insertarTS(ts, "fin", FIN);
-    return ts;
 }
 
 void inorden(struct datoTS* raiz) {

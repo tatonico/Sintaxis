@@ -60,7 +60,7 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef char * YYSTYPE;
+typedef  struct YYSTYPE  YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -70,12 +70,28 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 /* "%code provides" blocks.  */
-#line 5 "parser.y" /* yacc.c:1909  */
+#line 6 "parser.y" /* yacc.c:1909  */
 
-void yyerror(const char *);
+
+typedef enum yytokentype TOKEN;
+
+struct REG_EXPRESION {  // Registro semántico
+    TOKEN token;        // Token de Bison
+    char nombre[32];
+    int valor;
+};
+
+struct YYSTYPE {        // Tipo Bison
+    char * lexema;
+    struct REG_EXPRESION regExp;
+};
+
+void yyerror(const char*);
 extern int yylexerrs;
+extern int yysemerrs;
 extern int yynerrs;
+extern char yyerrorBuffer[255];
 
-#line 80 "parser.h" /* yacc.c:1909  */
+#line 96 "parser.h" /* yacc.c:1909  */
 
 #endif /* !YY_YY_PARSER_H_INCLUDED  */

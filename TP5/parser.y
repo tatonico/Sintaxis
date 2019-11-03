@@ -1,17 +1,33 @@
 %code top{
 #include <stdio.h>
 #include "scanner.h"
+#include "sematic.h"
 }
 %code provides{
-void yyerror(const char *);
+
+typedef enum yytokentype TOKEN;
+
+struct REG_EXPRESION {  // Registro semántico
+    TOKEN token;        // Token de Bison
+    char nombre[32];
+    int valor;
+};
+
+struct YYSTYPE {        // Tipo Bison
+    char * lexema;
+    struct REG_EXPRESION regExp;
+};
+
+void yyerror(const char*);
 extern int yylexerrs;
 extern int yysemerrs;
 extern int yynerrs;
+extern char yyerrorBuffer[255];
 }
 %defines "parser.h"
 %output "parser.c"
 %token IDENTIFICADOR CONSTANTE ASIGNACION PROGRAMA DEFINIR CODIGO LEER ESCRIBIR FIN
-%define api.value.type {char *}
+%define api.value.type { struct YYSTYPE }
 %define parse.error verbose
 
 %left '-' '+'
@@ -20,46 +36,46 @@ extern int yynerrs;
 
 %%
 
-programa            : PROGRAMA listaDeclaraciones CODIGO listaSentencias FIN { if (yynerrs || yylexerrs) YYABORT;}
+programa            : PROGRAMA { comenzar(); } listaDeclaraciones CODIGO listaSentencias FIN { terminar(); if (yynerrs || yylexerrs || yysemerrs) YYABORT;}
 listaDeclaraciones  : listaDeclaraciones declaracion
                     | %empty
                     ;
-declaracion         : DEFINIR IDENTIFICADOR ';' { printf("definir %s\n", yylval); }
+declaracion         : DEFINIR IDENTIFICADOR ';' { strcpy(bufferLexemas, yylval.lexema); if(definir()); }
                     | error ';'
                     ;
 listaSentencias     : listaSentencias sentencia
                     | sentencia
                     ;
-sentencia           : IDENTIFICADOR ASIGNACION expresion ';' { printf("asignacion\n"); }
-                    | LEER '(' listaIdentificadores ')' ';'  { printf("leer\n"); }
-                    | ESCRIBIR '(' listaExpresiones ')' ';'  { printf("escribir\n"); }
+sentencia           : ident ASIGNACION expresion ';'         { asignar($1.regExp, $3.regExp); }
+                    | LEER '(' listaIdentificadores ')' ';'  
+                    | ESCRIBIR '(' listaExpresiones ')' ';'  
                     | error ';'
                     ;
-listaIdentificadores: listaIdentificadores ',' IDENTIFICADOR
-                    | IDENTIFICADOR
+listaIdentificadores: listaIdentificadores ',' ident 
+                    | ident 
                     ;
 listaExpresiones    : listaExpresiones ',' expresion
                     | expresion
                     ;
-expresion           : expresion '+' expresion   { printf("suma\n"); }
-                    | expresion '-' expresion   { printf("resta\n"); }
-                    | expresion '*' expresion   { printf("multiplicacion\n"); }
-                    | expresion '/' expresion   { printf("division\n"); }
-                    | '-' valor %prec NEG       { printf("inversion\n"); }
+expresion           : expresion '+' expresion   { $$.regExp = genInfijo($1.regExp, '+', $3.regExp); }
+                    | expresion '-' expresion   { $$.regExp = genInfijo($1.regExp, '-', $3.regExp); }
+                    | expresion '*' expresion   { $$.regExp = genInfijo($1.regExp, '*', $3.regExp); }
+                    | expresion '/' expresion   { $$.regExp = genInfijo($1.regExp, '/', $3.regExp); }
+                    | '-' valor %prec NEG       { struct REG_EXPRESION r = { IDENTIFICADOR, "", 0 }; $$.regExp = genInfijo($2.regExp, NEG, r); }
                     | valor
                     ;
-valor               : IDENTIFICADOR
-                    | CONSTANTE
-                    | '(' expresion ')'         { printf("parentesis\n"); }
+valor               : ident
+                    | CONSTANTE                 { strcpy(bufferLexemas, yylval.lexema); $$.regExp = procesarCte(); }
+                    | '(' expresion ')'
                     ;
+ident               : IDENTIFICADOR             { strcpy(bufferLexemas, yylval.lexema); $$.regExp = procesarId(); if($$.regExp.valor); }
 %%
 
 int yylexerrs = 0;
 int yysemerrs = 0;
+char yyerrorBuffer[255];
 
-struct datoTS ts = inicializarTS();
-
-void yyerror(const char *s){
+void yyerror(const char* s){
 
 	printf("Línea #%d: %s\n", yylineno, s);
 	return;

@@ -3,9 +3,8 @@
 #include "parser.h"
 
 void enviarErrorLexico(const char*);
-char buffer[255];
 
-#line 9 "scanner.c"
+#line 8 "scanner.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -523,7 +522,7 @@ char *yytext;
 #line 1 "scanner.l"
 
 #define YY_NO_INPUT 1
-#line 527 "scanner.c"
+#line 526 "scanner.c"
 
 #define INITIAL 0
 
@@ -738,9 +737,9 @@ YY_DECL
 		}
 
 	{
-#line 21 "scanner.l"
+#line 20 "scanner.l"
 
-#line 744 "scanner.c"
+#line 743 "scanner.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -809,127 +808,127 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 22 "scanner.l"
+#line 21 "scanner.l"
 return PROGRAMA;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 23 "scanner.l"
+#line 22 "scanner.l"
 return DEFINIR;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 24 "scanner.l"
+#line 23 "scanner.l"
 return CODIGO;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 25 "scanner.l"
+#line 24 "scanner.l"
 return LEER;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 26 "scanner.l"
+#line 25 "scanner.l"
 return ESCRIBIR;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 27 "scanner.l"
+#line 26 "scanner.l"
 return FIN;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 28 "scanner.l"
+#line 27 "scanner.l"
 return '+';
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 29 "scanner.l"
+#line 28 "scanner.l"
 return '-';
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 30 "scanner.l"
+#line 29 "scanner.l"
 return '*';
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 31 "scanner.l"
+#line 30 "scanner.l"
 return '/';
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 32 "scanner.l"
+#line 31 "scanner.l"
 return ASIGNACION;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 33 "scanner.l"
+#line 32 "scanner.l"
 return '(';
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 34 "scanner.l"
+#line 33 "scanner.l"
 return ')';
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 35 "scanner.l"
+#line 34 "scanner.l"
 return ',';
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 36 "scanner.l"
+#line 35 "scanner.l"
 return ';';
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 37 "scanner.l"
-{ yylval = strdup(yytext); return IDENTIFICADOR; }
+#line 36 "scanner.l"
+{ yylval.lexema = strdup(yytext); return IDENTIFICADOR; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 38 "scanner.l"
-{ yylval = strdup(yytext); return CONSTANTE; }
+#line 37 "scanner.l"
+{ yylval.lexema = strdup(yytext); return CONSTANTE; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 39 "scanner.l"
+#line 38 "scanner.l"
 { yylexerrs++; enviarErrorLexico("Error Léxico: Cadena desconocida: "); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 40 "scanner.l"
+#line 39 "scanner.l"
 { yylexerrs++; enviarErrorLexico("Error Léxico: Identificador inválido: "); }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 41 "scanner.l"
+#line 40 "scanner.l"
 { yylexerrs++; enviarErrorLexico("Error Léxico: Constante inválida: "); }
 	YY_BREAK
 case 21:
 /* rule 21 can match eol */
 YY_RULE_SETUP
-#line 42 "scanner.l"
+#line 41 "scanner.l"
 /*ignorar espacios*/
 	YY_BREAK
 case 22:
 /* rule 22 can match eol */
 YY_RULE_SETUP
-#line 43 "scanner.l"
+#line 42 "scanner.l"
 /*ignorar comentario*/
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 44 "scanner.l"
+#line 43 "scanner.l"
 { yylexerrs++; enviarErrorLexico("Error Léxico: Cadena desconocida: "); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 45 "scanner.l"
+#line 44 "scanner.l"
 ECHO;
 	YY_BREAK
-#line 933 "scanner.c"
+#line 932 "scanner.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1905,12 +1904,11 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 45 "scanner.l"
+#line 44 "scanner.l"
 
 
 void enviarErrorLexico(const char *s) {
-    strcat(buffer, s);
-    strcat(buffer, yytext);
-    yyerror(buffer);
-    memset(buffer, '\0', 255);  
+    strcpy(yyerrorBuffer, s);
+    strcat(yyerrorBuffer, yytext);
+    yyerror(yyerrorBuffer);
 }
