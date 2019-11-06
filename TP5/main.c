@@ -12,17 +12,20 @@
 */
 
 #include <stdio.h>
-#include "scanner.h"
 #include "parser.h"
-#include "symbol.h"
 
 int main(void) {
-    if(yyparse()) {
-        printf("Errores de compilación\n");
-    } else {
-        printf("Compilación realizada con éxito\n");
+    switch (yyparse()) {
+        case 1:
+            printf("Errores de compilación\n");
+            break;
+        case 2:
+            printf("Error de memoria");
+            break;
+        case 0:
+            printf("Compilación realizada con éxito\n");
+            break;
     }
     printf("Errores sintácticos: %d  -  Errores léxicos: %d - Errores semánticos: %d\n", yynerrs, yylexerrs, yysemerrs);
-    //inorden(ts);
     return 0;
 }
