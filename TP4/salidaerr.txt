@@ -1,0 +1,12 @@
+definir total
+Línea #4: syntax error, unexpected DEFINIR, expecting ';'
+Línea #5: Error Léxico: Cadena desconocida: &!@
+definir var2
+leer
+Línea #9: Error Léxico: Constante inválida: 32z
+Línea #9: syntax error, unexpected '*', expecting IDENTIFICADOR or CONSTANTE or '-' or '('
+Línea #10: Error Léxico: Identificador inválido: var2&2@1
+division
+escribir
+Errores de compilación
+Errores sintácticos: 2  -  Errores léxicos: 3

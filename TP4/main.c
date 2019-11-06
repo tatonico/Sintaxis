@@ -22,5 +22,5 @@ int main(void) {
     } else {
         printf("Compilación realizada con éxito\n");
     }
-    printf("Errores sintácticos: %d  -  Errores léxicos: %d\n", yylexerrs, yynerrs);
+    printf("Errores sintácticos: %d  -  Errores léxicos: %d\n", yynerrs, yylexerrs);
 }
