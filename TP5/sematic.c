@@ -34,16 +34,9 @@ int definir (void) {
     struct datoTS* busqueda = buscarTS(ts, bufferLexemas);
     if (busqueda) {
         yysemerrs++;
-
-        strcpy(yyerrorBuffer, "Error semantico: ");
-        if (busqueda->token != IDENTIFICADOR) {
-            strcat(yyerrorBuffer, bufferLexemas);
-            strcat(yyerrorBuffer, " es una palabra reservada");
-        } else {
-            strcat(yyerrorBuffer, " identificador ");
-            strcat(yyerrorBuffer, bufferLexemas);
-            strcat(yyerrorBuffer, " ya fue declarado");
-        }
+        strcpy(yyerrorBuffer, "Error semantico: identificador ");
+        strcat(yyerrorBuffer, bufferLexemas);
+        strcat(yyerrorBuffer, " ya fue declarado");
         yyerror(yyerrorBuffer);
         return 1;
     } else {
